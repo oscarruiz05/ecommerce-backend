@@ -3,17 +3,14 @@ package com.oscar.ecomerce.backend.infrastructure.adapter;
 import com.oscar.ecomerce.backend.domain.model.Product;
 import com.oscar.ecomerce.backend.domain.port.IProductRepository;
 import com.oscar.ecomerce.backend.infrastructure.mapper.ProductMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@AllArgsConstructor
 public class ProductCrudRepositoryImpl implements IProductRepository {
     private final IProductCrudRepository productCrudRepository;
     private final ProductMapper productMapper;
-
-    public ProductCrudRepositoryImpl(IProductCrudRepository productCrudRepository, ProductMapper productMapper) {
-        this.productCrudRepository = productCrudRepository;
-        this.productMapper = productMapper;
-    }
 
     @Override
     public Iterable<Product> findAll() {
@@ -27,7 +24,7 @@ public class ProductCrudRepositoryImpl implements IProductRepository {
 
     @Override
     public Product findById(Integer id) {
-        return productMapper.toProduct(productCrudRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found")));
+        return productMapper.toProduct(productCrudRepository.findById(id).orElse(null));
     }
 
     @Override
