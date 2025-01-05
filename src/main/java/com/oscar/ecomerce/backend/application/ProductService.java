@@ -2,11 +2,13 @@ package com.oscar.ecomerce.backend.application;
 
 import com.oscar.ecomerce.backend.domain.model.Product;
 import com.oscar.ecomerce.backend.domain.port.IProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@AllArgsConstructor
 public class ProductService {
-    @Autowired
-    private IProductRepository productRepository;
+    private final IProductRepository productRepository;
 
     public Iterable<Product> findAll() {
         return productRepository.findAll();
