@@ -18,6 +18,7 @@ public interface ProductMapper {
             @Mapping(source = "stock", target = "stock"),
             @Mapping(source = "image", target = "image"),
             @Mapping(source = "category.id", target = "categoryId"),
+            @Mapping(source = "category.name", target = "categoryName"),
             @Mapping(source = "user.id", target = "userId"),
     })
 
