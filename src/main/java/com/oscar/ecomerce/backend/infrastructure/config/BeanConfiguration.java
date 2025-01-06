@@ -2,9 +2,11 @@ package com.oscar.ecomerce.backend.infrastructure.config;
 
 
 import com.oscar.ecomerce.backend.application.CategoryService;
+import com.oscar.ecomerce.backend.application.OrderService;
 import com.oscar.ecomerce.backend.application.ProductService;
 import com.oscar.ecomerce.backend.application.UserService;
 import com.oscar.ecomerce.backend.domain.port.ICategoryRepository;
+import com.oscar.ecomerce.backend.domain.port.IOrderRepository;
 import com.oscar.ecomerce.backend.domain.port.IProductRepository;
 import com.oscar.ecomerce.backend.domain.port.IUserRepository;
 import org.springframework.context.annotation.Bean;
@@ -25,5 +27,10 @@ public class BeanConfiguration {
     @Bean
     public ProductService productService(IProductRepository productRepository) {
         return new ProductService(productRepository);
+    }
+
+    @Bean
+    public OrderService orderService(IOrderRepository orderRepository) {
+        return new OrderService(orderRepository);
     }
 }

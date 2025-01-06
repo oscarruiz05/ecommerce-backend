@@ -14,6 +14,7 @@ public class OrderProduct {
     private BigDecimal quantity;
     private BigDecimal price;
     private Integer productId;
+    private Integer orderId;
 
     public BigDecimal getTotalItem() {
         return price.multiply(quantity);
