@@ -22,9 +22,9 @@ public class OrderController {
     }
 
     @PostMapping("/update/state/order")
-    public ResponseEntity<Void> updateStateById(@RequestParam Integer id, @RequestParam String state) {
+    public ResponseEntity<Order> updateStateById(@RequestParam Integer id, @RequestParam String state) {
         orderService.updateStateById(id, state);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(orderService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping
