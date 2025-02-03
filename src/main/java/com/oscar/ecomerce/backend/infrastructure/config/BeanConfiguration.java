@@ -1,10 +1,7 @@
 package com.oscar.ecomerce.backend.infrastructure.config;
 
 
-import com.oscar.ecomerce.backend.application.CategoryService;
-import com.oscar.ecomerce.backend.application.OrderService;
-import com.oscar.ecomerce.backend.application.ProductService;
-import com.oscar.ecomerce.backend.application.UserService;
+import com.oscar.ecomerce.backend.application.*;
 import com.oscar.ecomerce.backend.domain.port.ICategoryRepository;
 import com.oscar.ecomerce.backend.domain.port.IOrderRepository;
 import com.oscar.ecomerce.backend.domain.port.IProductRepository;
@@ -25,12 +22,17 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ProductService productService(IProductRepository productRepository) {
-        return new ProductService(productRepository);
+    public ProductService productService(IProductRepository productRepository, UploadFile uploadFile) {
+        return new ProductService(productRepository, uploadFile);
     }
 
     @Bean
     public OrderService orderService(IOrderRepository orderRepository) {
         return new OrderService(orderRepository);
+    }
+
+    @Bean
+    public UploadFile uploadFile() {
+        return new UploadFile();
     }
 }
