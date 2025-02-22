@@ -24,6 +24,7 @@ public class OrderController {
 
     @PostMapping("/update/state/order")
     public ResponseEntity<Order> updateStateById(@RequestParam Integer id, @RequestParam String state) {
+        log.info("Id: {}, State: {}", id, state);
         orderService.updateStateById(id, state);
         return new ResponseEntity<>(orderService.findById(id), HttpStatus.OK);
     }

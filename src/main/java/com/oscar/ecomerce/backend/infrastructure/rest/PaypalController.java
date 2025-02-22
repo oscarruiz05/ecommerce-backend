@@ -1,6 +1,7 @@
 package com.oscar.ecomerce.backend.infrastructure.rest;
 
 import com.oscar.ecomerce.backend.domain.model.DataPayment;
+import com.oscar.ecomerce.backend.domain.model.UrlPaypalResponse;
 import com.oscar.ecomerce.backend.infrastructure.service.PaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -19,7 +20,7 @@ public class PaypalController {
     private final String URL_PAYPAL_CANCEL = "http://localhost:8080/api/v1/payments/cancel";
 
     @PostMapping
-    public String createPayment(@RequestBody DataPayment dataPayment) throws PayPalRESTException {
+    public UrlPaypalResponse createPayment(@RequestBody DataPayment dataPayment) throws PayPalRESTException {
         Payment payment = paypalService.createPayment(
                 Double.valueOf(dataPayment.getAmount()),
                 dataPayment.getCurrency(),
@@ -31,10 +32,10 @@ public class PaypalController {
         );
         for (Links links : payment.getLinks()) {
             if (links.getRel().equals("approval_url")) {
-                return links.getHref();
+                return new UrlPaypalResponse(links.getHref());
             }
         }
-        return null;
+        return new UrlPaypalResponse("http://localhost:4200");
     }
 
     @GetMapping("/success")
@@ -44,13 +45,15 @@ public class PaypalController {
     ) throws PayPalRESTException {
         Payment payment = paypalService.executePayment(paymentId, payerId);
         if (payment.getState().equals("approved")) {
-            return new RedirectView("http://localhost:4200/success");
+            return new RedirectView("http://localhost:4200/payment/success");
         }
-        return new RedirectView("http://localhost:4200/error");
+//        return new RedirectView("http://localhost:4200/error");
+        return new RedirectView("http://localhost:4200");
     }
 
     @GetMapping("/cancel")
     public RedirectView cancelPay() {
-        return new RedirectView("http://localhost:4200/cancel");
+//        return new RedirectView("http://localhost:4200/cancel");
+        return new RedirectView("http://localhost:4200");
     }
 }
