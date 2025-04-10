@@ -12,6 +12,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -22,7 +27,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
+        http
+                .cors(
+                        cors -> cors.configurationSource(
+                                request -> {
+                                    CorsConfiguration configuration = new CorsConfiguration();
+                                    configuration.setAllowedOrigins(List.of("*"));
+                                    configuration.setAllowedMethods(List.of("*"));
+                                    configuration.setAllowedHeaders(List.of("*"));
+                                    return configuration;
+                                }
+                        )
+                )
+                .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                 auth -> auth
                         .requestMatchers("/api/v1/admin/categories/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/admin/products/**").hasRole("ADMIN")
