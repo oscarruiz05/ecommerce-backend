@@ -1,5 +1,7 @@
 package com.oscar.ecomerce.backend.infrastructure.rest;
 
+import com.oscar.ecomerce.backend.application.UserService;
+import com.oscar.ecomerce.backend.domain.model.User;
 import com.oscar.ecomerce.backend.infrastructure.dto.JWTClient;
 import com.oscar.ecomerce.backend.infrastructure.dto.UserDto;
 import com.oscar.ecomerce.backend.infrastructure.jwt.JWTGenerator;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     private final AuthenticationManager authenticationManager;
     private final JWTGenerator jwtGenerator;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<JWTClient> login(@RequestBody UserDto userDto) {
@@ -28,9 +31,12 @@ public class LoginController {
                 new UsernamePasswordAuthenticationToken(userDto.username(), userDto.password())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        log.info("User role: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
         String token = jwtGenerator.getToken(userDto.username());
-        JWTClient jwtClient = new JWTClient(token);
+        User user = userService.findByEmail(userDto.username());
+
+        JWTClient jwtClient = new JWTClient(user.getId(), user.getEmail(), user.getName(), token);
+
         return new ResponseEntity<>(jwtClient, HttpStatus.OK);
     }
 }

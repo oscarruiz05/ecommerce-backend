@@ -28,9 +28,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/admin/products/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/orders/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/payments/**").permitAll()
+                        .requestMatchers("/images/**").permitAll()
                         .requestMatchers("/api/v1/home/**").permitAll()
-                        .requestMatchers("/api/v1/security/**")
-                        .permitAll()
+                        .requestMatchers("/api/v1/security/**").permitAll()
                         .anyRequest()
                         .authenticated()
         ).addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);

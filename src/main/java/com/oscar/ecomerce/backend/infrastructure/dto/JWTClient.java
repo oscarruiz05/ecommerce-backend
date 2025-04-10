@@ -1,4 +1,6 @@
 package com.oscar.ecomerce.backend.infrastructure.dto;
 
-public record JWTClient(String token) {
+import com.oscar.ecomerce.backend.domain.model.User;
+
+public record JWTClient(Integer id, String username, String name, String token) {
 }
