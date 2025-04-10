@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("api/v1/payments")
+@RequestMapping("/api/v1/payments")
 public class PaypalController {
     private final PaypalService paypalService;
     private final String URL_PAYPAL_SUCCESS = "http://localhost:8080/api/v1/payments/success";
